@@ -72,5 +72,5 @@ Feel free to open an issue or submit a pull request if you'd like to contribute!
 This project is licensed under the MIT License. See [LICENSE](LICENSE) for details.
 
 ## Author
-[Your Name](https://github.com/YashKushwaha)
+[Yash Kushwaha](https://github.com/YashKushwaha)
 
