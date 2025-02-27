@@ -12,7 +12,7 @@ This Python program extracts transaction data from credit card statements (PDF f
 ## Installation
 ### **1. Clone the Repository**
 ```bash
-git clone https://github.com/your-username/read_flipkart_axis_cc_statements.git
+git clone https://github.com/YashKushwaha/read_flipkart_axis_cc_statements.git
 
 ```
 
@@ -31,7 +31,7 @@ pip install -r requirements.txt
 ## Usage
 ### **Run the Script**
 ```bash
-python credit_card_data_extraction.py
+python src\credit_card_data_extraction.py
 ```
 
 ### **Inputs Required**
