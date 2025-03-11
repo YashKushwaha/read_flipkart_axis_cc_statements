@@ -1,7 +1,7 @@
 import os
 import sys
 import pandas as pd
-from pdfminer.pdfdocument import PDFPasswordIncorrect
+
 
 from utils import *
 
@@ -33,24 +33,10 @@ if __name__ == '__main__':
     password = input(prompt).strip()
     
     if not password:
-        sys.exit("❌ No password entered. Exiting the program.")
+        sys.exit("❌ No password entered. Exiting the program.")    
     
-    all_transactions = []
-    for file in cc_statements:
-        print(f'Reading file -> {file}')
-        pdf_file = os.path.join(cc_statement_dir, file)
-        try:
-            data = read_encrypted_pdf(pdf_file, password)
-            transactions = extract_all_transactions(data)
-            all_transactions+=transactions    
-        except PDFPasswordIncorrect:
-            print("Error: The PDF is password-protected. Please provide the correct password.")
-        except Exception as e:
-            print('Error while reading the PDF -> ', e)
+    all_transactions = extract_transactions_from_pdfs(cc_statement_dir, password)
 
-    if not all_transactions:
-        sys.exit("❌ No transactions to process. Exiting the program.")
-    
     cleaned_all_transactions = clean_transaction_list(all_transactions)
     transactions_df = pd.DataFrame(cleaned_all_transactions)
     transactions_df['credit'] = transactions_df['credit'].apply(lambda x: x.replace('Cr', '').replace(',', '')).apply(float)

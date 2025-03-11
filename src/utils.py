@@ -1,5 +1,7 @@
 import pdfplumber
 import datetime
+import os, sys
+from pdfminer.pdfdocument import PDFPasswordIncorrect
 
 def is_int(int_str):
     try:
@@ -71,3 +73,24 @@ def clean_transaction_list(all_transactions):
         record = dict(date=date, debit=debit, credit=credit, others=others, complete_entry = i)
         cleaned_transactions.append(record)
     return cleaned_transactions
+    
+def extract_transactions_from_pdfs(cc_statement_dir, password):
+    cc_statements = [i for i in os.listdir(cc_statement_dir) if i.endswith('.pdf')]
+    all_transactions = []
+    
+    for file in cc_statements:
+        print(f'Reading file -> {file}')
+        pdf_file = os.path.join(cc_statement_dir, file)
+        try:
+            data = read_encrypted_pdf(pdf_file, password)
+            transactions = extract_all_transactions(data)
+            all_transactions+=transactions    
+        except PDFPasswordIncorrect:
+            print("Error: The PDF is password-protected. Please provide the correct password.")
+        except Exception as e:
+            print('Error while reading the PDF -> ', e)
+
+    if not all_transactions:
+        sys.exit("❌ No transactions to process. Exiting the program.")     
+        
+    return all_transactions
